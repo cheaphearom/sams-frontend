@@ -339,7 +339,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import api from '../services/api';
+import api, { IMAGE_URL } from '../services/api';
 
 const students = ref([]);
 const filterClassId = ref(null);
@@ -371,7 +371,7 @@ const totalPages = computed(() => Math.ceil(totalStudents.value / itemsPerPage.v
 const imageUrl = (filename) => {
   if (!filename) return '';
   // adjust path if needed (e.g. /uploads/students)
-  return `${api.defaults.ImageUrl}/uploads/students/${filename}`;
+  return `${IMAGE_URL}/uploads/students/${filename}`;
 };
 
 const onFileChange = (event) => {
