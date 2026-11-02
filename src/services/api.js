@@ -12,7 +12,7 @@ const api = axios.create({
 
 // send the login token with every request
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('sams_token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

@@ -1,710 +1,270 @@
 <template>
-  <div class="h-screen flex flex-col bg-slate-50">
-    <!-- Header -->
-    <header
-      v-if="!route.meta.hideSidebar"
-      class="bg-white border-b border-slate-200 px-4 md:px-6 py-4 flex justify-between items-center"
+  <!-- Pages like /login render on their own, without the app shell -->
+  <RouterView v-if="route.meta.hideSidebar" />
+
+  <div v-else class="h-screen flex bg-slate-100 text-slate-800">
+    <!-- Mobile overlay -->
+    <Transition name="fade">
+      <div
+        v-if="mobileMenuOpen"
+        @click="closeMobileSidebar"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden"
+      ></div>
+    </Transition>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside
+      :class="[
+        'fixed md:relative inset-y-0 left-0 z-50 flex flex-col bg-slate-900 text-slate-300',
+        'transition-all duration-300 ease-in-out shrink-0',
+        collapsed ? 'md:w-20' : 'md:w-72',
+        'w-72',
+        mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
+      ]"
     >
-      <div class="flex items-center gap-3">
-        <!-- Mobile Menu Toggle -->
+      <!-- Brand -->
+      <div class="h-16 flex items-center gap-3 px-4 border-b border-white/5 shrink-0">
+        <div
+          class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shrink-0 overflow-hidden shadow-lg shadow-blue-900/40"
+        >
+          <img
+            v-if="school?.image && !logoFailed"
+            :src="imageSchoolUrl(school.image)"
+            alt=""
+            class="w-full h-full object-cover"
+            @error="logoFailed = true"
+          />
+          <i v-else class="fa-solid fa-graduation-cap text-white"></i>
+        </div>
+        <div v-show="!collapsed || mobileMenuOpen" class="min-w-0 flex-1">
+          <p class="text-white font-semibold text-sm leading-tight truncate" :title="school?.name">
+            {{ school?.name || 'SAMS' }}
+          </p>
+          <p class="text-[11px] text-slate-400 leading-tight">Attendance System</p>
+        </div>
+        <button
+          @click="closeMobileSidebar"
+          class="md:hidden w-8 h-8 rounded-lg hover:bg-white/10 text-slate-400"
+          aria-label="Close menu"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Menu -->
+      <nav class="flex-1 overflow-y-auto px-3 py-4 sidebar-scroll">
+        <p
+          v-show="!collapsed || mobileMenuOpen"
+          class="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-500"
+        >
+          Menu
+        </p>
+
+        <ul class="space-y-1">
+          <li v-for="item in menu" :key="item.label">
+            <!-- Single link -->
+            <RouterLink
+              v-if="item.to"
+              :to="item.to"
+              @click="closeMobileSidebar"
+              :title="isCollapsed ? item.label : undefined"
+              :class="[
+                'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+                isActive(item.to)
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-900/40'
+                  : 'hover:bg-white/5 hover:text-white',
+                isCollapsed && 'justify-center',
+              ]"
+            >
+              <i :class="['fa-solid w-5 text-center', item.icon]"></i>
+              <span v-show="!isCollapsed" class="truncate">{{ item.label }}</span>
+            </RouterLink>
+
+            <!-- Group with sub-links -->
+            <template v-else>
+              <button
+                @click="toggleGroup(item.label)"
+                :title="isCollapsed ? item.label : undefined"
+                :class="[
+                  'w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+                  groupActive(item)
+                    ? 'text-white bg-white/5'
+                    : 'hover:bg-white/5 hover:text-white',
+                  isCollapsed && 'justify-center',
+                ]"
+              >
+                <i
+                  :class="[
+                    'fa-solid w-5 text-center',
+                    item.icon,
+                    groupActive(item) && 'text-blue-400',
+                  ]"
+                ></i>
+                <span v-show="!isCollapsed" class="flex-1 text-left truncate">{{ item.label }}</span>
+                <i
+                  v-show="!isCollapsed"
+                  :class="[
+                    'fa-solid fa-chevron-down text-[10px] text-slate-500 transition-transform duration-200',
+                    openGroup === item.label && 'rotate-180',
+                  ]"
+                ></i>
+              </button>
+
+              <div
+                class="grid transition-all duration-200 ease-in-out"
+                :class="openGroup === item.label && !isCollapsed ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
+              >
+                <ul class="overflow-hidden ml-5 pl-4 border-l border-white/10 space-y-0.5">
+                  <li v-for="child in item.children" :key="child.to" class="first:mt-1 last:mb-1">
+                    <RouterLink
+                      :to="child.to"
+                      @click="closeMobileSidebar"
+                      :title="child.hint"
+                      :class="[
+                        'relative flex items-center rounded-lg px-3 py-2 text-[13px] transition-colors',
+                        isActive(child.to)
+                          ? 'text-white bg-blue-600/20 font-medium'
+                          : 'text-slate-400 hover:text-white hover:bg-white/5',
+                      ]"
+                    >
+                      <span
+                        v-if="isActive(child.to)"
+                        class="absolute -left-[21px] w-2 h-2 rounded-full bg-blue-500 ring-4 ring-slate-900"
+                      ></span>
+                      <span class="truncate">{{ child.label }}</span>
+                    </RouterLink>
+                  </li>
+                </ul>
+              </div>
+            </template>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- User card + logout -->
+      <div class="p-3 border-t border-white/5 shrink-0">
+        <div :class="['flex items-center gap-3 rounded-xl p-2', isCollapsed && 'justify-center']">
+          <img
+            v-if="user?.image && !avatarFailed"
+            :src="imageUserUrl(user.image)"
+            alt=""
+            class="w-9 h-9 rounded-full object-cover ring-2 ring-white/10 shrink-0"
+            @error="avatarFailed = true"
+          />
+          <div
+            v-else
+            class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-semibold shrink-0"
+          >
+            {{ initials }}
+          </div>
+          <div v-show="!isCollapsed" class="min-w-0 flex-1">
+            <p class="text-sm text-white font-medium truncate">{{ user?.name || 'Guest' }}</p>
+            <p class="text-xs text-slate-400 capitalize">{{ user?.role || '' }}</p>
+          </div>
+          <button
+            v-show="!isCollapsed"
+            @click="logout"
+            title="Log out"
+            class="w-9 h-9 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+          >
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+        <button
+          v-if="isCollapsed"
+          @click="logout"
+          title="Log out"
+          class="mt-1 w-full h-9 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+        >
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <div class="flex-1 flex flex-col min-w-0">
+      <!-- Header -->
+      <header
+        class="h-16 bg-white/80 backdrop-blur border-b border-slate-200 px-4 md:px-6 flex items-center gap-3 shrink-0"
+      >
         <button
           @click="toggleMobileSidebar"
-          class="md:hidden p-2 hover:bg-slate-100 rounded-lg"
+          class="md:hidden w-9 h-9 rounded-lg hover:bg-slate-100 text-slate-600"
+          aria-label="Open menu"
         >
-          <i class="fa-solid fa-bars text-slate-900"></i>
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <button
+          @click="toggleCollapsed"
+          class="hidden md:flex w-9 h-9 items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500"
+          :title="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+        >
+          <i :class="['fa-solid', collapsed ? 'fa-angles-right' : 'fa-angles-left']"></i>
         </button>
 
-        <div
-          class="w-10 h-10 bg-slate-400 rounded-lg flex items-center justify-center"
-        >
-          <span class="text-white font-bold text-sm">        
-            <img
-          v-if="faculties && faculties.image"
-          :src="imageFacultiesUrl(faculties.image)"
-          alt="Faculties image"
-          class="w-10 h-10 rounded-full object-cover border border-gray-200"
-        /></span>
-        </div>
-        <h1 class="font-bold text-lg text-blue-900 uppercase" v-if="faculties && faculties.name">{{faculties.name}}</h1>
-      </div>
-
-      <div class="flex items-center gap-2 md:gap-4">
-        <button class="p-2 hover:bg-slate-100 rounded-lg">
-          <i class="fa-solid fa-bell text-slate-600"></i>
-        </button>
-        <button class="p-2 hover:bg-slate-100 rounded-lg hidden sm:block">
-          <i class="fa-solid fa-comment text-slate-600"></i>
-        </button>
-        <button class="p-2 hover:bg-slate-100 rounded-lg hidden sm:block">
-          <i class="fa-solid fa-gear text-slate-600"></i>
-        </button>
-        <img
-          v-if="user && user.image"
-          :src="imageUrl(user.image)"
-          alt="User image"
-          class="w-10 h-10 rounded-full object-cover border border-gray-200"
-        />
-
-        <div
-          v-else-if="user"
-          class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center cursor-pointer"
-        >
-          <span class="text-white text-sm font-semibold">
-            {{ user.name?.charAt(0) }}
-          </span>
+        <div class="min-w-0">
+          <p v-if="current.group" class="text-xs text-slate-400 leading-tight truncate">
+            {{ current.group }}
+          </p>
+          <h1 class="text-base md:text-lg font-semibold text-slate-800 leading-tight truncate">
+            {{ current.title }}
+          </h1>
         </div>
 
-        <div
-          v-else
-          class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center"
-        >
-          <i class="fa-solid fa-user text-gray-400"></i>
+        <div class="ml-auto flex items-center gap-3">
+          <span class="hidden sm:block text-sm text-slate-500">{{ today }}</span>
+
+          <!-- User menu -->
+          <div class="relative" ref="userMenuRef">
+            <button
+              @click="userMenuOpen = !userMenuOpen"
+              class="flex items-center gap-2 rounded-full pl-1 pr-2 py-1 hover:bg-slate-100 transition-colors"
+            >
+              <img
+                v-if="user?.image && !avatarFailed"
+                :src="imageUserUrl(user.image)"
+                alt=""
+                class="w-8 h-8 rounded-full object-cover"
+                @error="avatarFailed = true"
+              />
+              <div
+                v-else
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-xs font-semibold"
+              >
+                {{ initials }}
+              </div>
+              <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+            </button>
+
+            <Transition name="pop">
+              <div
+                v-if="userMenuOpen"
+                class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl ring-1 ring-slate-200 py-2 z-50"
+              >
+                <div class="px-4 py-2 border-b border-slate-100">
+                  <p class="text-sm font-semibold text-slate-800 truncate">{{ user?.name }}</p>
+                  <p class="text-xs text-slate-500 truncate">{{ user?.email }}</p>
+                  <span
+                    class="inline-block mt-1.5 text-[11px] font-medium capitalize px-2 py-0.5 rounded-full bg-blue-50 text-blue-600"
+                  >
+                    {{ user?.role }}
+                  </span>
+                </div>
+                <button
+                  @click="logout"
+                  class="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                >
+                  <i class="fa-solid fa-arrow-right-from-bracket w-4"></i>
+                  Log out
+                </button>
+              </div>
+            </Transition>
+          </div>
         </div>
+      </header>
 
-      </div>
-    </header>
-
-    <!-- Content area: sidebar + main -->
-    <div class="flex flex-1 overflow-hidden relative">
-      <!-- Mobile Sidebar Overlay -->
-      <div
-        v-if="mobileMenuOpen && !route.meta.hideSidebar"
-        @click="closeMobileSidebar"
-        class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-      ></div>
-
-      <!-- Sidebar -->
-      <aside
-        v-if="!route.meta.hideSidebar"
-        :class="[
-          'bg-slate-800 flex flex-col transition-transform duration-300 ease-in-out z-50',
-          'w-80 md:relative fixed inset-y-0 left-0',
-          mobileMenuOpen
-            ? 'translate-x-0'
-            : '-translate-x-full md:translate-x-0',
-        ]"
-      >
-        <!-- Mobile Close Button -->
-        <div class="md:hidden flex justify-end p-4">
-          <button
-            @click="closeMobileSidebar"
-            class="p-2 hover:bg-slate-800 rounded-lg text-slate-300"
-          >
-            <i class="fa-solid fa-times text-xl"></i>
-          </button>
-        </div>
-
-        <!-- ================= ADMIN SIDEBAR ================= -->
-        <nav v-if="isAdmin" class="space-y-1 pt-4 flex-1 overflow-y-auto">
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-chart-area"></i>
-            </span>
-            <span class="text-m">Dashboard</span>
-          </RouterLink>
-
-          <!-- Academic Management -->
-          <div>
-            <button
-              @click="toggleSubmenu('academicManagement')"
-              class="w-full flex items-center justify-between px-4 py-3 text-slate-300 transition-all nav-link"
-              :class="{ 'active-nav': academicManagementActive }"
-            >
-              <div class="flex items-center gap-3">
-                <span class="text-base w-5">
-                  <i class="fa-solid fa-bars-progress"></i>
-                </span>
-                <span class="text-m">Academic Management</span>
-              </div>
-              <i
-                class="fa-solid fa-chevron-down text-xs transition-transform"
-                :class="{ 'rotate-180': openSubmenu === 'academicManagement' }"
-              ></i>
-            </button>
-
-            <div
-              v-show="openSubmenu === 'academicManagement'"
-              class="bg-slate-800 py-1"
-            >
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/school-years"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                School Years & Terms
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/faculties"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Faculties
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/departments"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Departments
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/majors"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Majors
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/rooms"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Rooms
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/subjects"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Subjects
-              </RouterLink>
-            </div>
-          </div>
-
-          <!-- Classes & Curriculum -->
-          <div>
-            <button
-              @click="toggleSubmenu('classesAndCurriculum')"
-              class="w-full flex items-center justify-between px-4 py-3 text-slate-300 transition-all nav-link"
-              :class="{ 'active-nav': classesAndCurriculumActive }"
-            >
-              <div class="flex items-center gap-3">
-                <span class="text-base w-5">
-                  <i class="fa-solid fa-bars-progress"></i>
-                </span>
-                <span class="text-m">Classes & Curriculum</span>
-              </div>
-              <i
-                class="fa-solid fa-chevron-down text-xs transition-transform"
-                :class="{
-                  'rotate-180': openSubmenu === 'classesAndCurriculum',
-                }"
-              ></i>
-            </button>
-
-            <div
-              v-show="openSubmenu === 'classesAndCurriculum'"
-              class="bg-slate-800 py-1"
-            >
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/classes"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Classes
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/class-subjects"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Class Subjects (Class – Subject – Teacher)
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/schedules"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Schedules (Timetable)
-              </RouterLink>
-            </div>
-          </div>
-
-          <!-- Users Management -->
-          <div>
-            <button
-              @click="toggleSubmenu('userManagement')"
-              class="w-full flex items-center justify-between px-4 py-3 text-slate-300 transition-all nav-link"
-              :class="{ 'active-nav': userManagementActive }"
-            >
-              <div class="flex items-center gap-3">
-                <span class="text-base w-5">
-                  <i class="fa-solid fa-bars-progress"></i>
-                </span>
-                <span class="text-m">Users Management</span>
-              </div>
-              <i
-                class="fa-solid fa-chevron-down text-xs transition-transform"
-                :class="{ 'rotate-180': openSubmenu === 'userManagement' }"
-              ></i>
-            </button>
-
-            <div
-              v-show="openSubmenu === 'userManagement'"
-              class="bg-slate-800 py-1"
-            >
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/users"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Users (all users)
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/teachers"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Teachers
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/students"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Students
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/teacher-class"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Teacher – Classes (Homeroom / Advisor)
-              </RouterLink>
-            </div>
-          </div>
-
-          <!-- Attendance Management -->
-          <div>
-            <button
-              @click="toggleSubmenu('attendanceManagement')"
-              class="w-full flex items-center justify-between px-4 py-3 text-slate-300 transition-all nav-link"
-              :class="{ 'active-nav': attendanceManagementActive }"
-            >
-              <div class="flex items-center gap-3">
-                <span class="text-base w-5">
-                  <i class="fa-solid fa-bars-progress"></i>
-                </span>
-                <span class="text-m">Attendance Management</span>
-              </div>
-              <i
-                class="fa-solid fa-chevron-down text-xs transition-transform"
-                :class="{
-                  'rotate-180': openSubmenu === 'attendanceManagement',
-                }"
-              ></i>
-            </button>
-
-            <div
-              v-show="openSubmenu === 'attendanceManagement'"
-              class="bg-slate-800 py-1"
-            >
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/attendance-sessions"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Attendance Sessions
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/attendance-requested"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Attendance Requested
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/take-attendance"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Take Attendance (class / subject)
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/teacher-attendance"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Teacher Attendance (check)
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/fix-attendance"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Fix Attendance (edit wrong records)
-              </RouterLink>
-            </div>
-          </div>
-
-          <!-- Reports Management -->
-          <div>
-            <button
-              @click="toggleSubmenu('reportManagement')"
-              class="w-full flex items-center justify-between px-4 py-3 text-slate-300 transition-all nav-link"
-              :class="{ 'active-nav': reportManagementActive }"
-            >
-              <div class="flex items-center gap-3">
-                <span class="text-base w-5">
-                  <i class="fa-solid fa-bars-progress"></i>
-                </span>
-                <span class="text-m">Reports Management</span>
-              </div>
-              <i
-                class="fa-solid fa-chevron-down text-xs transition-transform"
-                :class="{ 'rotate-180': openSubmenu === 'reportManagement' }"
-              ></i>
-            </button>
-
-            <div
-              v-show="openSubmenu === 'reportManagement'"
-              class="bg-slate-800 py-1"
-            >
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/student-attendance-report"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Student Attendance Report
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/class-attendance-report"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Class Attendance Report
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/subject-attendance-report"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Subject Attendance Report
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/teacher-attendance-report"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Teacher Attendance Report
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/monthly-summary"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Monthly Summary
-              </RouterLink>
-            </div>
-          </div>
-
-          <!-- Settings Management -->
-          <!-- <div>
-            <button
-              @click="toggleSubmenu('settingManagement')"
-              class="w-full flex items-center justify-between px-4 py-3 text-slate-300 transition-all nav-link"
-              :class="{ 'active-nav': settingManagementActive }"
-            >
-              <div class="flex items-center gap-3">
-                <span class="text-base w-5">
-                  <i class="fa-solid fa-bars-progress"></i>
-                </span>
-                <span class="text-m">Settings Management</span>
-              </div>
-              <i
-                class="fa-solid fa-chevron-down text-xs transition-transform"
-                :class="{ 'rotate-180': openSubmenu === 'settingManagement' }"
-              ></i>
-            </button>
-
-            <div
-              v-show="openSubmenu === 'settingManagement'"
-              class="bg-slate-800 py-1"
-            >
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/edit-profile"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Profile (change password, avatar)
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/roles-permissions"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Roles & Permissions (if you implement RBAC)
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/system-settings"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                System Settings (logo, school name, academic year)
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="/audit-log"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Audit Log / Activity Log (optional)
-              </RouterLink>
-            </div>
-          </div> -->
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/school"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-gear"></i>
-            </span>
-            <span class="text-m">Setting</span>
-          </RouterLink>
-        </nav>
-
-        <!-- ================= TEACHER SIDEBAR ================= -->
-        <nav
-          v-else-if="isTeacher"
-          class="space-y-1 pt-4 flex-1 overflow-y-auto"
-        >
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-chart-area"></i>
-            </span>
-            <span class="text-m">Dashboard</span>
-          </RouterLink>
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/teacher-class-list"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-landmark"></i>
-            </span>
-            <span class="text-m">My Classes</span>
-          </RouterLink>
-          <!-- Attendance Management -->
-          <div>
-            <button
-              @click="toggleSubmenu('attendanceTeacher')"
-              class="w-full flex items-center justify-between px-4 py-3 text-slate-300 transition-all nav-link"
-              :class="{ 'active-nav': attendanceTeacherActive }"
-            >
-              <div class="flex items-center gap-3">
-                <span class="text-base w-5">
-                  <i class="fa-solid fa-bars-progress"></i>
-                </span>
-                <span class="text-m">Attendance</span>
-              </div>
-              <i
-                class="fa-solid fa-chevron-down text-xs transition-transform"
-                :class="{ 'rotate-180': openSubmenu === 'attendanceTeacher' }"
-              ></i>
-            </button>
-
-            <div
-              v-show="openSubmenu === 'attendanceTeacher'"
-              class="bg-slate-800 py-1"
-            >
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="teacher-take-attendance"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Take Attendance
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="teacher-teacher-attendance"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Teacher Attendance
-              </RouterLink>
-            </div>
-          </div>
-
-          <!-- Schedule Management -->
-          <div>
-            <button
-              @click="toggleSubmenu('scheduleTeacher')"
-              class="w-full flex items-center justify-between px-4 py-3 text-slate-300 transition-all nav-link"
-              :class="{ 'active-nav': scheduleTeacherActive }"
-            >
-              <div class="flex items-center gap-3">
-                <span class="text-base w-5">
-                  <i class="fa-solid fa-bars-progress"></i>
-                </span>
-                <span class="text-m">Schedule</span>
-              </div>
-              <i
-                class="fa-solid fa-chevron-down text-xs transition-transform"
-                :class="{ 'rotate-180': openSubmenu === 'scheduleTeacher' }"
-              ></i>
-            </button>
-
-            <div
-              v-show="openSubmenu === 'scheduleTeacher'"
-              class="bg-slate-800 py-1"
-            >
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="teacher-my-timetable"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                My Timetable (weekly view)
-              </RouterLink>
-              <RouterLink
-                @click="closeMobileSidebar"
-                to="teacher-upcoming-sessions"
-                class="flex items-center gap-3 px-4 py-2 pl-12 text-slate-400 hover:text-white hover:bg-slate-700 text-sm transition-colors"
-                active-class="text-white bg-slate-700"
-              >
-                Upcoming Sessions
-              </RouterLink>
-            </div>
-          </div>
-
-          <!-- <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/attendance-reports"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-file-lines"></i>
-            </span>
-            <span class="text-m">Reports</span>
-          </RouterLink> -->
-        </nav>
-
-        <!-- ================= STUDENT SIDEBAR ================= -->
-        <nav
-          v-else-if="isStudent"
-          class="space-y-1 pt-4 flex-1 overflow-y-auto"
-        >
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/student-dashboard-view"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-chart-area"></i>
-            </span>
-            <span class="text-m">Dashboard</span>
-          </RouterLink>
-
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/student-my-attendance"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-clipboard-check"></i>
-            </span>
-            <span class="text-m">My Attendance</span>
-          </RouterLink>
-
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/student-schedules-view"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-calendar-week"></i>
-            </span>
-            <span class="text-m">Schedules</span>
-          </RouterLink>
-
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/student-pf"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-gears"></i>
-            </span>
-            <span class="text-m">Setting</span>
-          </RouterLink>
-        </nav>
-
-        <!-- ================= FALLBACK (no role) ================= -->
-        <nav v-else class="space-y-1 pt-4 flex-1 overflow-y-auto">
-          <RouterLink
-            @click="closeMobileSidebar"
-            class="flex items-center gap-3 px-4 py-3 text-slate-300 transition-all nav-link"
-            active-class="active-nav"
-            to="/"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-chart-area"></i>
-            </span>
-            <span class="text-m">Dashboard</span>
-          </RouterLink>
-        </nav>
-
-        <!-- Logout (shared) -->
-        <div class="p-4">
-          <button
-            @click="logout"
-            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 border border-slate-700 transition-colors"
-          >
-            <span class="text-base w-5">
-              <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            </span>
-            <span class="text-m">Log Out</span>
-          </button>
-        </div>
-      </aside>
-
-      <!-- Main Content: ONLY this scrolls -->
-      <main class="flex-1 bg-slate-50 overflow-y-auto">
+      <!-- Page content: only this area scrolls -->
+      <main class="flex-1 overflow-y-auto">
         <RouterView />
       </main>
     </div>
@@ -712,166 +272,255 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import { useRoute } from 'vue-router';
 import api, { IMAGE_URL } from './services/api';
 
 const route = useRoute();
 
-const user = ref(null);
-const faculties = ref(null);
-const mobileMenuOpen = ref(false);
-
-const loadUser = () => {
-  const raw = localStorage.getItem("sams_user");
-  user.value = raw ? JSON.parse(raw) : null;
-  LoadFa();
+// ---------- Menus per role ----------
+// `to` = single link, `children` = collapsible group. `hint` shows as a tooltip.
+const MENUS = {
+  admin: [
+    { label: 'Dashboard', icon: 'fa-gauge-high', to: '/' },
+    {
+      label: 'Academic',
+      icon: 'fa-building-columns',
+      children: [
+        { label: 'School Years & Terms', to: '/school-years' },
+        { label: 'Faculties', to: '/faculties' },
+        { label: 'Departments', to: '/departments' },
+        { label: 'Majors', to: '/majors' },
+        { label: 'Rooms', to: '/rooms' },
+        { label: 'Subjects', to: '/subjects' },
+      ],
+    },
+    {
+      label: 'Classes & Curriculum',
+      icon: 'fa-chalkboard',
+      children: [
+        { label: 'Classes', to: '/classes' },
+        { label: 'Class Subjects', to: '/class-subjects', hint: 'Class – Subject – Teacher' },
+        { label: 'Schedules', to: '/schedules', hint: 'Timetable' },
+      ],
+    },
+    {
+      label: 'Users',
+      icon: 'fa-users',
+      children: [
+        { label: 'All Users', to: '/users' },
+        { label: 'Teachers', to: '/teachers' },
+        { label: 'Students', to: '/students' },
+        { label: 'Teacher – Classes', to: '/teacher-class', hint: 'Homeroom / Advisor' },
+      ],
+    },
+    {
+      label: 'Attendance',
+      icon: 'fa-clipboard-check',
+      children: [
+        { label: 'Attendance Sessions', to: '/attendance-sessions' },
+        { label: 'Attendance Requests', to: '/attendance-requested' },
+        { label: 'Take Attendance', to: '/take-attendance', hint: 'By class / subject' },
+        { label: 'Teacher Attendance', to: '/teacher-attendance' },
+        { label: 'Fix Attendance', to: '/fix-attendance', hint: 'Edit wrong records' },
+      ],
+    },
+    {
+      label: 'Reports',
+      icon: 'fa-chart-pie',
+      children: [
+        { label: 'Student Report', to: '/student-attendance-report' },
+        { label: 'Class Report', to: '/class-attendance-report' },
+        { label: 'Subject Report', to: '/subject-attendance-report' },
+        { label: 'Teacher Report', to: '/teacher-attendance-report' },
+        { label: 'Monthly Summary', to: '/monthly-summary' },
+      ],
+    },
+    { label: 'Settings', icon: 'fa-gear', to: '/school' },
+  ],
+  teacher: [
+    { label: 'Dashboard', icon: 'fa-gauge-high', to: '/' },
+    { label: 'My Classes', icon: 'fa-chalkboard-user', to: '/teacher-class-list' },
+    {
+      label: 'Attendance',
+      icon: 'fa-clipboard-check',
+      children: [
+        { label: 'Take Attendance', to: '/teacher-take-attendance' },
+        { label: 'My Attendance', to: '/teacher-teacher-attendance' },
+      ],
+    },
+    {
+      label: 'Schedule',
+      icon: 'fa-calendar-days',
+      children: [
+        { label: 'My Timetable', to: '/teacher-my-timetable', hint: 'Weekly view' },
+        { label: 'Upcoming Sessions', to: '/teacher-upcoming-sessions' },
+      ],
+    },
+  ],
+  student: [
+    { label: 'Dashboard', icon: 'fa-gauge-high', to: '/student-dashboard-view' },
+    { label: 'My Attendance', icon: 'fa-clipboard-check', to: '/student-my-attendance' },
+    { label: 'Schedules', icon: 'fa-calendar-week', to: '/student-schedules-view' },
+  ],
 };
 
-const LoadFa = async () => {
+// ---------- User & school ----------
+const user = ref(null);
+const school = ref(null);
+const avatarFailed = ref(false);
+const logoFailed = ref(false);
+
+const loadUser = () => {
   try {
-    const { data } = await api.get('/schools/1');
-    faculties.value = data;
-    console.log(faculties);
-    
-  } catch (err) {
-    error.value = 'Failed to load classes';
+    const raw = localStorage.getItem('sams_user');
+    user.value = raw ? JSON.parse(raw) : null;
+  } catch {
+    user.value = null;
   }
 };
 
-const imageUrl = (filename) => {
-  if (!filename) return "";
-  return `${IMAGE_URL}/uploads/users/${filename}`;
+const loadSchool = async () => {
+  if (!localStorage.getItem('sams_token')) return;
+  try {
+    const { data } = await api.get('/schools/1');
+    school.value = data;
+  } catch {
+    school.value = null; // keep the default "SAMS" brand
+  }
 };
-const imageFacultiesUrl = (filename) => {
-  if (!filename) return "";
-  return `${IMAGE_URL}/uploads/schools/${filename}`;
+
+const menu = computed(() => MENUS[user.value?.role] || [{ label: 'Dashboard', icon: 'fa-gauge-high', to: '/' }]);
+
+const initials = computed(() =>
+  (user.value?.name || '?')
+    .split(' ')
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+);
+
+const imageUserUrl = (f) => (f ? `${IMAGE_URL}/uploads/users/${f}` : '');
+const imageSchoolUrl = (f) => (f ? `${IMAGE_URL}/uploads/schools/${f}` : '');
+
+const today = new Date().toLocaleDateString(undefined, {
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
+
+// ---------- Active state ----------
+const isActive = (to) => route.path === to;
+const groupActive = (item) => item.children?.some((c) => isActive(c.to));
+
+// Page title + group shown in the header, taken from the menu
+const current = computed(() => {
+  for (const item of menu.value) {
+    if (item.to && isActive(item.to)) return { title: item.label, group: '' };
+    const child = item.children?.find((c) => isActive(c.to));
+    if (child) return { title: child.label, group: item.label };
+  }
+  return { title: String(route.name || '').replace(/([a-z])([A-Z])/g, '$1 $2'), group: '' };
+});
+
+// ---------- Sidebar state ----------
+const openGroup = ref(null);
+const mobileMenuOpen = ref(false);
+const userMenuOpen = ref(false);
+const userMenuRef = ref(null);
+
+const readCollapsed = () => {
+  try {
+    return localStorage.getItem('sams_sidebar_collapsed') === '1';
+  } catch {
+    return false;
+  }
+};
+const collapsed = ref(readCollapsed());
+// The mobile drawer always shows full labels
+const isCollapsed = computed(() => collapsed.value && !mobileMenuOpen.value);
+
+const toggleCollapsed = () => {
+  collapsed.value = !collapsed.value;
+  try {
+    localStorage.setItem('sams_sidebar_collapsed', collapsed.value ? '1' : '0');
+  } catch {
+    /* ignore */
+  }
+};
+
+const toggleGroup = (label) => {
+  if (isCollapsed.value) {
+    // Clicking a group icon in the slim sidebar expands it and opens the group
+    toggleCollapsed();
+    openGroup.value = label;
+    return;
+  }
+  openGroup.value = openGroup.value === label ? null : label;
+};
+
+const toggleMobileSidebar = () => (mobileMenuOpen.value = !mobileMenuOpen.value);
+const closeMobileSidebar = () => (mobileMenuOpen.value = false);
+
+// Open the group that holds the current page
+watch(
+  () => [route.path, menu.value],
+  () => {
+    const group = menu.value.find((item) => groupActive(item));
+    if (group) openGroup.value = group.label;
+    userMenuOpen.value = false;
+  },
+  { immediate: true }
+);
+
+const onClickOutside = (e) => {
+  if (userMenuRef.value && !userMenuRef.value.contains(e.target)) userMenuOpen.value = false;
 };
 
 onMounted(() => {
   loadUser();
+  loadSchool();
+  document.addEventListener('click', onClickOutside);
 });
-
-// role helpers
-const role = computed(() => user.value?.role || null);
-const isTopAdmin = computed(() => role.value === "top_admin");
-const isAdmin = computed(() => role.value === "admin");
-const isTeacher = computed(() => role.value === "teacher");
-const isStudent = computed(() => role.value === "student");
-
-const openSubmenu = ref(null);
-
-const toggleSubmenu = (menu) => {
-  openSubmenu.value = openSubmenu.value === menu ? null : menu;
-};
-
-const toggleMobileSidebar = () => {
-  mobileMenuOpen.value = !mobileMenuOpen.value;
-};
-
-const closeMobileSidebar = () => {
-  mobileMenuOpen.value = false;
-};
-
-// admin
-const academicManagementActive = computed(() => {
-  return (
-    route.path === "/school-years" ||
-    route.path === "/faculties" ||
-    route.path === "/departments" ||
-    route.path === "/majors" ||
-    route.path === "/rooms" ||
-    route.path === "/subjects"
-  );
-});
-
-const classesAndCurriculumActive = computed(() => {
-  return (
-    route.path === "/classes" ||
-    route.path === "/class-subjects" ||
-    route.path === "/schedules"
-  );
-});
-
-const userManagementActive = computed(() => {
-  return (
-    route.path === "/users" ||
-    route.path === "/teachers" ||
-    route.path === "/students" ||
-    route.path === "/teacher-class"
-  );
-});
-
-const attendanceManagementActive = computed(() => {
-  return (
-    route.path === "/attendance-sessions" ||
-    route.path === "/take-attendance" ||
-    route.path === "/teacher-attendance" ||
-    route.path === "/fix-attendance"
-  );
-});
-
-const reportManagementActive = computed(() => {
-  return (
-    route.path === "/student-attendance-report" ||
-    route.path === "/class-attendance-report" ||
-    route.path === "/subject-attendance-report" ||
-    route.path === "/teacher-attendance-report" ||
-    route.path === "/monthly-summary"
-  );
-});
-
-const settingManagementActive = computed(() => {
-  return (
-    route.path === "/edit-profile" ||
-    route.path === "/roles-permissions" ||
-    route.path === "/system-settings" ||
-    route.path === "/teacher-attendance-report" ||
-    route.path === "/audit-log"
-  );
-});
-
-// teacher
-const myClassesTeacherActive = computed(() => {
-  return (
-    route.path === "/teacher-class-list"
-  );
-});
-const attendanceTeacherActive = computed(() => {
-  return (
-    route.path === "/teacher-take-attendance" ||
-    route.path === "/teacher-teacher-attendance"
-  );
-});
-const scheduleTeacherActive = computed(() => {
-  return (
-    route.path === "/teacher-my-timetable" ||
-    route.path === "/teacher-upcoming-sessions"
-  );
-});
+onBeforeUnmount(() => document.removeEventListener('click', onClickOutside));
 
 const logout = () => {
-  localStorage.removeItem("sams_token");
-  localStorage.removeItem("sams_user");
-  window.location.href = "/login";
+  localStorage.removeItem('sams_token');
+  localStorage.removeItem('sams_user');
+  window.location.href = '/login';
 };
 </script>
 
 <style scoped>
-.nav-link:hover {
-  background-color: white !important;
-  color: #0f172a !important;
-  border-top-right-radius: 8999px;
-  border-bottom-right-radius: 8999px;
-  font-weight: 500;
-  transition: 1s;
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+}
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
 }
 
-.active-nav {
-  background-color: white !important;
-  color: #0f172a !important;
-  border-top-right-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  font-weight: 500;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.pop-enter-active,
+.pop-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.pop-enter-from,
+.pop-leave-to {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
 }
 </style>
