@@ -10,10 +10,8 @@
     <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1.5">Student ID</label>
-          <input v-model="filters.student_id" type="number"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="e.g. 1" />
+          <label class="block text-sm font-medium text-gray-700 mb-1.5">Student</label>
+          <EntitySelect v-model="filters.student_id" type="student" />
         </div>
 
         <div>
@@ -107,6 +105,7 @@
 </template>
 
 <script setup>
+import EntitySelect from '../components/EntitySelect.vue';
 import { ref } from 'vue';
 import api from '../services/api';
 

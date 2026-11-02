@@ -115,14 +115,8 @@
             </div>
             
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Major ID</label>
-              <input 
-                v-model.number="form.major_id" 
-                type="number" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-                placeholder="Enter major ID"
-                required
-              />
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Major</label>
+              <EntitySelect v-model="form.major_id" type="major" required />
             </div>
           </div>
 
@@ -155,6 +149,7 @@
 </template>
 
 <script setup>
+import EntitySelect from '../components/EntitySelect.vue';
 import { ref, onMounted } from 'vue';
 import api from '../services/api';
 

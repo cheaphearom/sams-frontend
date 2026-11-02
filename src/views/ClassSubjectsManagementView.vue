@@ -12,14 +12,9 @@
     <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
       <div class="flex flex-wrap gap-4 items-end">
         <div class="flex-1 min-w-[260px]">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Class ID</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Class</label>
           <div class="flex gap-2">
-            <input
-              v-model.number="filterClassId"
-              type="number"
-              placeholder="Enter class ID"
-              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <EntitySelect v-model="filterClassId" type="class" class="flex-1" />
             <button
               class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
               @click="fetchByClass"
@@ -59,9 +54,9 @@
           <thead>
             <tr class="bg-slate-100 border-b border-gray-200">
               <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase">NO</th>
-              <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase">Class ID</th>
-              <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase">Subject ID</th>
-              <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase">Teacher ID</th>
+              <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase">Class</th>
+              <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase">Subject</th>
+              <th class="px-6 py-3 text-left font-semibold text-gray-700 uppercase">Teacher</th>
               <th class="px-6 py-3 text-center font-semibold text-gray-700 uppercase">Actions</th>
             </tr>
           </thead>
@@ -77,24 +72,15 @@
               </td>
 
               <td class="px-6 py-3 text-gray-900">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                  {{ row.class_id }}
-                </span>
                 {{ row.class_name }}
               </td>
 
               <td class="px-6 py-3 text-gray-900 font-medium">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                  {{ row.subject_id }}
-                </span>
                 {{ row.subject_name }}
               </td>
 
               <td class="px-6 py-3 text-gray-900">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
-                  {{ row.teacher_id ? (row.teacher_id) : '-' }}
-                </span>
-                {{ row.teacher_name }}
+                {{ row.teacher_name || '—' }}
               </td>
 
               <td class="px-6 py-3 text-center">
@@ -209,35 +195,18 @@
         <form @submit.prevent="save" class="px-6 py-4">
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Class ID</label>
-              <input
-                v-model.number="form.class_id"
-                type="number"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter class_id"
-                required
-              />
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Class</label>
+              <EntitySelect v-model="form.class_id" type="class" required />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Subject ID</label>
-              <input
-                v-model.number="form.subject_id"
-                type="number"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter subject_id"
-                required
-              />
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Subject</label>
+              <EntitySelect v-model="form.subject_id" type="subject" required />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Teacher ID (optional)</label>
-              <input
-                v-model.number="form.teacher_id"
-                type="number"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter teacher_id"
-              />
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Teacher (optional)</label>
+              <EntitySelect v-model="form.teacher_id" type="teacher" />
             </div>
           </div>
 
@@ -271,6 +240,7 @@
 </template>
 
 <script setup>
+import EntitySelect from '../components/EntitySelect.vue';
 import { ref, computed, onMounted } from 'vue';
 import api from '../services/api';
 

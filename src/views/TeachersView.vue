@@ -100,14 +100,8 @@
         <form @submit.prevent="save" class="px-6 py-4">
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">User ID</label>
-              <input 
-                v-model.number="form.user_id" 
-                type="number" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-                placeholder="Enter user ID"
-                required
-              />
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">User</label>
+              <EntitySelect v-model="form.user_id" type="teacherUser" required />
             </div>
             
             <div>
@@ -150,6 +144,7 @@
 </template>
 
 <script setup>
+import EntitySelect from '../components/EntitySelect.vue';
 import { ref, onMounted } from 'vue';
 import api from '../services/api';
 
@@ -199,7 +194,7 @@ const closeForm = () => {
 const save = async () => {
   try {
     if (!form.value.user_id || !form.value.employee_code) {
-      error.value = 'User ID and Employee Code are required.';
+      error.value = 'User and Employee Code are required.';
       return;
     }
 
