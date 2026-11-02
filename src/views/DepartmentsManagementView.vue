@@ -12,14 +12,9 @@
     <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
       <div class="flex flex-wrap gap-4 items-end">
         <div class="flex-1 min-w-[260px]">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Faculty ID</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Faculty</label>
           <div class="flex gap-2">
-            <input
-              v-model.number="filterFacultyId"
-              type="number"
-              placeholder="Enter faculty ID"
-              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+            <EntitySelect v-model="filterFacultyId" type="faculty" class="flex-1" />
             <button
               class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
               @click="fetchDepartmentsByFaculty"
@@ -194,14 +189,8 @@
         <form @submit.prevent="save" class="px-6 py-4">
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Faculty ID</label>
-              <input
-                v-model.number="form.faculty_id"
-                type="number"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter faculty_id"
-                required
-              />
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Faculty</label>
+              <EntitySelect v-model="form.faculty_id" type="faculty" required />
             </div>
 
             <div>
@@ -256,6 +245,7 @@
 </template>
 
 <script setup>
+import EntitySelect from '../components/EntitySelect.vue';
 import { ref, computed, onMounted } from 'vue';
 import api from '../services/api';
 

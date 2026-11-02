@@ -12,14 +12,9 @@
     <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
       <div class="flex flex-wrap gap-4 items-end">
         <div class="flex-1 min-w-[200px]">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Class ID</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Class</label>
           <div class="flex gap-2">
-            <input 
-              v-model.number="filterClassId" 
-              type="number" 
-              placeholder="Enter class ID"
-              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-            />
+            <EntitySelect v-model="filterClassId" type="class" class="flex-1" />
             <button
               class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
               @click="fetchStudentsByClass"
@@ -277,14 +272,8 @@
             </div>
             
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Class ID</label>
-              <input 
-                v-model.number="form.class_id" 
-                type="number" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-                placeholder="Enter class ID"
-                required
-              />
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Class</label>
+              <EntitySelect v-model="form.class_id" type="class" required />
             </div>
 
             <!-- Image Upload -->
@@ -338,6 +327,7 @@
 </template>
 
 <script setup>
+import EntitySelect from '../components/EntitySelect.vue';
 import { ref, computed, onMounted } from 'vue';
 import api, { IMAGE_URL } from '../services/api';
 
