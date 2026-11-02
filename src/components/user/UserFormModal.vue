@@ -16,7 +16,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1.5">Name</label>
             <input 
               v-model="localForm.name" 
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
               placeholder="Enter full name"
               required
             />
@@ -28,7 +28,7 @@
               v-model="localForm.email" 
               type="email"
               :disabled="isEdit"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-500" 
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-500" 
               placeholder="user@example.com"
               required
             />
@@ -38,7 +38,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1.5">Role</label>
             <select 
               v-model="localForm.role"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             >
               <option value="">Select role</option>
@@ -56,7 +56,7 @@
             <input 
               v-model="localForm.password" 
               type="password"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
               placeholder="Enter password"
               :required="!isEdit"
             />
@@ -70,7 +70,7 @@
               @change="onFileChange" 
               accept="image/*"
               ref="fileInput"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
             />
             
             <div v-if="previewUrl || localForm.image" class="mt-3">
@@ -88,7 +88,7 @@
               v-model="localForm.is_active" 
               type="checkbox"
               id="is_active"
-              class="w-4 h-4 text-slate-900 border-gray-300 rounded focus:ring-slate-500"
+              class="w-4 h-4 text-slate-900 border-gray-300 rounded focus:ring-blue-500"
             />
             <label for="is_active" class="text-sm font-medium text-gray-700">Active User</label>
           </div>
@@ -110,7 +110,7 @@
           </button>
           <button 
             type="submit" 
-            class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
           >
             <i class="fa-solid fa-floppy-disk"></i>
             Save

@@ -18,17 +18,17 @@
               v-model.number="filterClassId" 
               type="number" 
               placeholder="Enter class ID"
-              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
             />
             <button
-              class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2"
+              class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
               @click="fetchStudentsByClass"
             >
               <i class="fa-solid fa-filter"></i>
               Filter
             </button>
             <button
-              class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
               @click="fetchAllStudents"
             >
               <i class="fa-solid fa-rotate"></i>
@@ -38,7 +38,7 @@
         </div>
         
         <button 
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm" 
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm" 
           @click="openForm()"
         >
           <i class="fa-solid fa-plus"></i>
@@ -158,7 +158,7 @@
                   :class="[
                     'min-w-[36px] h-9 px-3 rounded-lg text-sm font-medium transition-colors',
                     page === currentPage
-                      ? 'bg-slate-900 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                   ]"
                 >
@@ -187,7 +187,7 @@
             <select 
               v-model.number="itemsPerPage" 
               @change="changeItemsPerPage"
-              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option :value="5">5</option>
               <option :value="10">10</option>
@@ -215,7 +215,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">Username</label>
               <input 
                 v-model="form.name" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="Enter student username for login."
                 required
               />
@@ -225,7 +225,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
               <input 
                 v-model="form.first_name" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="Enter student First name."
                 required
               />
@@ -235,7 +235,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
               <input 
                 v-model="form.last_name" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="Enter student last name."
                 required
               />
@@ -246,7 +246,7 @@
               <input 
                 v-model="form.email" 
                 type="email" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="student@example.com"
                 required
               />
@@ -260,7 +260,7 @@
               <input 
                 v-model="form.password" 
                 type="password"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="Enter password"
                 :required="!form.id"
               />
@@ -270,7 +270,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">Student Code</label>
               <input 
                 v-model="form.student_code" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="Enter student code"
                 required
               />
@@ -281,7 +281,7 @@
               <input 
                 v-model.number="form.class_id" 
                 type="number" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="Enter class ID"
                 required
               />
@@ -295,7 +295,7 @@
                 @change="onFileChange" 
                 accept="image/*"
                 ref="fileInput"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
               />
               
               <div v-if="previewUrl || form.image" class="mt-3">
@@ -325,7 +325,7 @@
             </button>
             <button 
               type="submit" 
-              class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
             >
               <i class="fa-solid fa-floppy-disk"></i>
               Save

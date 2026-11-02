@@ -12,3 +12,141 @@ body {
   color: white;
   padding: 16px 24px;
 }
+
+/* =====================================================================
+   Page theme: forms, buttons, cards, tables and modals inside the app
+   content area (<main class="app-content"> in App.vue). Written as plain
+   CSS so every page picks it up without editing each view.
+   ===================================================================== */
+.app-content {
+  --brand: #2563eb;        /* blue-600, same as the sidebar's active item */
+  --brand-hover: #1d4ed8;  /* blue-700 */
+  --ring: rgba(37, 99, 235, 0.18);
+}
+
+/* ---------- Text inputs, selects and textareas ---------- */
+.app-content input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='range']):not([type='color']),
+.app-content select,
+.app-content textarea {
+  border-color: #cbd5e1; /* slate-300 */
+  border-radius: 0.625rem;
+  background-color: #fff;
+  color: #0f172a;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.app-content input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='range']):not([type='color']),
+.app-content select {
+  min-height: 2.625rem; /* 42px, an easier click target */
+}
+.app-content input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='range']):not([type='color']):hover,
+.app-content select:hover,
+.app-content textarea:hover {
+  border-color: #94a3b8; /* slate-400 */
+}
+.app-content input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='range']):not([type='color']):focus,
+.app-content select:focus,
+.app-content textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+.app-content input::placeholder,
+.app-content textarea::placeholder {
+  color: #94a3b8;
+}
+.app-content input:disabled,
+.app-content select:disabled,
+.app-content textarea:disabled {
+  background-color: #f1f5f9;
+  color: #64748b;
+  cursor: not-allowed;
+}
+.app-content input[type='checkbox'],
+.app-content input[type='radio'] {
+  accent-color: var(--brand);
+}
+.app-content input[type='file'] {
+  font-size: 0.875rem;
+}
+.app-content input[type='file']::file-selector-button {
+  margin-right: 0.75rem;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: #eff6ff;
+  color: var(--brand);
+  font-weight: 500;
+  cursor: pointer;
+}
+.app-content input[type='file']::file-selector-button:hover {
+  background: #dbeafe;
+}
+
+/* ---------- Labels ---------- */
+.app-content label {
+  color: #334155; /* slate-700 */
+}
+
+/* ---------- Buttons ---------- */
+.app-content button {
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.1s ease;
+}
+.app-content button:not(:disabled):active {
+  transform: translateY(1px);
+}
+.app-content button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.app-content button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* ---------- Cards ---------- */
+.app-content .bg-white.shadow-sm,
+.app-content .bg-white.shadow,
+.app-content .bg-white.shadow-md {
+  border-radius: 0.875rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+/* ---------- Tables ---------- */
+.app-content table thead th {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: #64748b; /* slate-500 */
+  white-space: nowrap;
+}
+.app-content table thead tr {
+  background-color: #f8fafc; /* slate-50 */
+}
+.app-content table tbody tr {
+  transition: background-color 0.12s ease;
+}
+.app-content table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* ---------- Modals (fixed full-screen overlay + dialog box) ---------- */
+.app-content .fixed.inset-0 {
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  animation: sams-fade 0.18s ease-out;
+}
+.app-content .fixed.inset-0 > .bg-white {
+  border-radius: 1rem;
+  box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.35);
+  animation: sams-pop 0.2s ease-out;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+@keyframes sams-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes sams-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}

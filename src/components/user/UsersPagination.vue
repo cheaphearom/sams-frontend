@@ -39,7 +39,7 @@
               :class="[ 
                 'min-w-[36px] h-9 px-3 rounded-lg text-sm font-medium transition-colors',
                 page === currentPage
-                  ? 'bg-slate-900 text-white'
+                  ? 'bg-blue-600 text-white'
                   : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
               ]"
             >
@@ -70,7 +70,7 @@
         <select 
           :value="itemsPerPage"
           @change="$emit('change-per-page', +$event.target.value)"
-          class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+          class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option :value="5">5</option>
           <option :value="10">10</option>

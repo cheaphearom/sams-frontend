@@ -12,7 +12,7 @@
     <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
       <div class="flex justify-end">
         <button 
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm" 
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm" 
           @click="openForm()"
         >
           <i class="fa-solid fa-plus"></i>
@@ -92,7 +92,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">Room Name</label>
               <input 
                 v-model="form.name" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="Enter room name"
                 required
               />
@@ -104,7 +104,7 @@
                 v-model.number="form.capacity" 
                 type="number" 
                 min="1"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="Enter room capacity"
                 required
               />
@@ -127,7 +127,7 @@
             </button>
             <button 
               type="submit" 
-              class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
             >
               <i class="fa-solid fa-floppy-disk"></i>
               Save

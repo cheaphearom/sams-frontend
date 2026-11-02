@@ -20,7 +20,7 @@
             v-model.number="classId"
             type="number"
             placeholder="Enter class ID"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
@@ -29,7 +29,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
           <select
             v-model.number="classSubjectId"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
           >
             <option disabled :value="0">-- Select subject --</option>
             <option v-for="s in subjects" :key="s.class_subject_id" :value="s.class_subject_id">
@@ -43,7 +43,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
           <select
             v-model.number="scheduleId"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
           >
             <option disabled :value="0">-- Select schedule --</option>
             <option v-for="sch in schedules" :key="sch.id" :value="sch.id">
@@ -58,13 +58,13 @@
           <input
             v-model="sessionDate"
             type="date"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         <!-- Buttons -->
         <button
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
           @click="loadSubjectsAndStudents"
         >
           <i class="fa-solid fa-rotate"></i>
@@ -72,7 +72,7 @@
         </button>
 
         <button
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
           :disabled="!classSubjectId || loadingSchedules"
           @click="loadSchedules"
         >
@@ -125,7 +125,7 @@
             v-model="topic"
             type="text"
             placeholder="Topic (optional)"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
       </div>
@@ -177,7 +177,7 @@
               <td class="px-6 py-3 text-center">
                 <select
                   v-model="recordsMap[st.id].status"
-                  class="border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white"
+                  class="border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                 >
                   <option value="present">present</option>
                   <option value="absent">absent</option>
@@ -199,7 +199,7 @@
                   v-model="recordsMap[st.id].remark"
                   type="text"
                   placeholder="optional"
-                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </td>
             </tr>

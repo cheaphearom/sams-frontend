@@ -27,7 +27,7 @@
               @input="onSearch"
               type="text"
               placeholder="Search class, subject, date, room, topic..."
-              class="w-full pl-10 pr-10 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full pl-10 pr-10 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
 
             <button
@@ -163,7 +163,7 @@
                   :class="[ 
                     'min-w-[36px] h-9 px-3 rounded-lg text-sm font-medium transition-colors',
                     page === currentPage 
-                      ? 'bg-slate-900 text-white' 
+                      ? 'bg-blue-600 text-white' 
                       : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                   ]"
                 >
@@ -192,7 +192,7 @@
             <select
               v-model.number="itemsPerPage"
               @change="changeItemsPerPage"
-              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option :value="5">5</option>
               <option :value="10">10</option>

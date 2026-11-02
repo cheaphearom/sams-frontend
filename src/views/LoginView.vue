@@ -24,7 +24,7 @@
               <input 
                 v-model="email" 
                 type="email" 
-                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 required
               />
             </div>
@@ -33,13 +33,13 @@
               <input 
                 v-model="password" 
                 type="password" 
-                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 required
               />
             </div>
             <button
               type="submit"
-              class="w-full bg-slate-900 text-white py-2 rounded hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               :disabled="loading"
             >
               {{ loading ? 'Logging in...' : 'Login' }}
