@@ -264,7 +264,7 @@
       </header>
 
       <!-- Page content: only this area scrolls -->
-      <main class="flex-1 overflow-y-auto">
+      <main class="app-content flex-1 overflow-y-auto">
         <RouterView />
       </main>
     </div>

@@ -19,7 +19,7 @@
             v-model.number="classId"
             type="number"
             placeholder="Enter class ID"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
@@ -27,7 +27,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
           <select
             v-model.number="selectedScheduleId"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
           >
             <option disabled :value="0">-- Select schedule --</option>
             <option v-for="s in schedules" :key="s.schedule_id" :value="s.schedule_id">
@@ -41,12 +41,12 @@
           <input
             v-model="sessionDate"
             type="date"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         <button
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
           @click="loadSchedules"
         >
           <i class="fa-solid fa-rotate"></i>
@@ -110,7 +110,7 @@
               <td class="px-6 py-3 text-center">
                 <select
                   v-model="recordsMap[st.id].status"
-                  class="border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white"
+                  class="border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                 >
                   <option value="present">present</option>
                   <option value="absent">absent</option>
@@ -132,7 +132,7 @@
                   v-model="recordsMap[st.id].remark"
                   type="text"
                   placeholder="optional"
-                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </td>
             </tr>

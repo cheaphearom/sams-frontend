@@ -34,7 +34,7 @@
             <input
               v-model="fromDate"
               type="date"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
@@ -43,7 +43,7 @@
             <input
               v-model="toDate"
               type="date"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
@@ -51,7 +51,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
             <select
               v-model="statusFilter"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">All</option>
               <option value="planned">planned</option>
@@ -61,7 +61,7 @@
           </div>
 
           <button
-            class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
             :disabled="sessionsLoading"
             @click="loadSessions"
           >
@@ -154,7 +154,7 @@
               <div class="flex gap-2">
                 <!-- New button for generating QR code -->
                 <button
-                  class="bg-slate-900 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm disabled:opacity-60"
+                  class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm disabled:opacity-60"
                   :disabled="!selectedSession || sessionsLoading"
                   @click="generateQrForSession"
                 >
@@ -164,7 +164,7 @@
   
                 <!-- Save Attendance Button -->
                 <button
-                  class="bg-slate-900 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm disabled:opacity-60"
+                  class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm disabled:opacity-60"
                   :disabled="!selectedSession || studentsLoading || saving"
                   @click="saveAttendance"
                 >
@@ -197,7 +197,7 @@
                       v-if="draft[student.student_id]"
                       :value="draft[student.student_id].status"
                       @change="updateStudentStatus(student.student_id, $event.target.value)"
-                      class="border border-gray-300 px-3 py-1 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
+                      class="border border-gray-300 px-3 py-1 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="present">Present</option>
                       <option value="absent">Absent</option>
@@ -212,7 +212,7 @@
                       :value="draft[student.student_id].remark"
                       @input="updateStudentRemark(student.student_id, $event.target.value)"
                       placeholder="Enter remark..."
-                      class="border border-gray-300 px-3 py-1 rounded-lg text-sm w-full focus:outline-none focus:ring-2 focus:ring-slate-500"
+                      class="border border-gray-300 px-3 py-1 rounded-lg text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span v-else class="text-gray-400">Loading...</span>
                   </td>
@@ -256,7 +256,7 @@
               </div>
               <button
                 @click="copyToClipboard"
-                class="flex-shrink-0 bg-slate-900 text-white px-3 py-2 rounded-lg hover:bg-slate-800 transition-colors text-xs font-medium flex items-center gap-1"
+                class="flex-shrink-0 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-xs font-medium flex items-center gap-1"
                 title="Copy to clipboard"
               >
                 <i class="fa-solid fa-copy"></i>
@@ -277,7 +277,7 @@
           
           <button 
             @click="closeQrModal" 
-            class="mt-6 w-full bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors"
+            class="mt-6 w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Close
           </button>

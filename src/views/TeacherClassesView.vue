@@ -18,10 +18,10 @@
               v-model.number="filterTeacherId"
               type="number"
               placeholder="Enter teacher ID"
-              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button
-              class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2"
+              class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
               @click="fetchByTeacher"
             >
               <i class="fa-solid fa-filter"></i>
@@ -37,10 +37,10 @@
               v-model.number="filterClassId"
               type="number"
               placeholder="Enter class ID"
-              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button
-              class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2"
+              class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
               @click="fetchByClass"
             >
               <i class="fa-solid fa-filter"></i>
@@ -49,14 +49,14 @@
           </div>
         </div>
             <button
-              class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
               @click="fetchAll"
             >
               <i class="fa-solid fa-rotate"></i>
               All
             </button>       
         <button
-          class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
           @click="openForm()"
         >
           <i class="fa-solid fa-plus"></i> New Assign
@@ -157,7 +157,7 @@
                   @click="goToPage(page)"
                   :class="[
                     'min-w-[36px] h-9 px-3 rounded-lg text-sm font-medium transition-colors',
-                    page === currentPage ? 'bg-slate-900 text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    page === currentPage ? 'bg-blue-600 text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                   ]"
                 >
                   {{ page }}
@@ -183,7 +183,7 @@
             <select
               v-model.number="itemsPerPage"
               @change="changeItemsPerPage"
-              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option :value="5">5</option>
               <option :value="10">10</option>
@@ -212,7 +212,7 @@
               <input
                 v-model.number="form.teacher_id"
                 type="number"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter teacher_id"
                 required
               />
@@ -223,7 +223,7 @@
               <input
                 v-model.number="form.class_id"
                 type="number"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter class_id"
                 required
               />
@@ -245,7 +245,7 @@
             </button>
             <button
               type="submit"
-              class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
             >
               <i class="fa-solid fa-floppy-disk"></i> Save
             </button>

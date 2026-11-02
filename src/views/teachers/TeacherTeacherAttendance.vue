@@ -42,7 +42,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">Select upcoming session</label>
             <select
               v-model="selectedSessionId"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">-- Choose session --</option>
               <option v-for="s in upcoming" :key="s.id" :value="s.id">
@@ -55,7 +55,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
             <select
               v-model="teacherStatus"
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="present">present</option>
               <option value="absent">absent</option>
@@ -68,12 +68,12 @@
               v-model="teacherRemark"
               type="text"
               placeholder="Remark..."
-              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           <button
-            class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm disabled:opacity-60"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm disabled:opacity-60"
             :disabled="!selectedSessionId || saving"
             @click="submitTeacherAttendance"
           >

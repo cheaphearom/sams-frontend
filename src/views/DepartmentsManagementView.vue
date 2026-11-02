@@ -18,17 +18,17 @@
               v-model.number="filterFacultyId"
               type="number"
               placeholder="Enter faculty ID"
-              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="flex-1 border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button
-              class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2"
+              class="bg-green-600 text-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
               @click="fetchDepartmentsByFaculty"
             >
               <i class="fa-solid fa-filter"></i>
               Filter
             </button>
             <button
-              class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
               @click="fetchAllDepartments"
             >
               <i class="fa-solid fa-rotate"></i>
@@ -38,7 +38,7 @@
         </div>
 
         <button
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
           @click="openForm()"
         >
           <i class="fa-solid fa-plus"></i>
@@ -169,7 +169,7 @@
             <select
               v-model.number="itemsPerPage"
               @change="changeItemsPerPage"
-              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option :value="5">5</option>
               <option :value="10">10</option>
@@ -198,7 +198,7 @@
               <input
                 v-model.number="form.faculty_id"
                 type="number"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter faculty_id"
                 required
               />
@@ -210,7 +210,7 @@
                 v-model="form.name"
                 type="text"
                 maxlength="150"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter department name"
                 required
               />
@@ -222,7 +222,7 @@
                 v-model="form.code"
                 type="text"
                 maxlength="20"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter code (unique)"
                 required
               />
@@ -244,7 +244,7 @@
             </button>
             <button
               type="submit"
-              class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
             >
               <i class="fa-solid fa-floppy-disk"></i> Save
             </button>

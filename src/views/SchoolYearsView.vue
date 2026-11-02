@@ -17,12 +17,12 @@
             v-model="searchQuery" 
             type="text" 
             placeholder="Search by term name or year..."
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
           />
         </div>
         
         <button 
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm" 
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm" 
           @click="openForm()"
         >
           <i class="fa-solid fa-plus"></i>
@@ -160,7 +160,7 @@
             <select 
               v-model.number="itemsPerPage" 
               @change="changeItemsPerPage"
-              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option :value="5">5</option>
               <option :value="10">10</option>
@@ -188,7 +188,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">Term Name</label>
               <input 
                 v-model="form.name" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="e.g., Fall 2024, Spring 2025"
                 required
               />
@@ -200,7 +200,7 @@
                 <input 
                   v-model="form.start_date" 
                   type="date"
-                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                   @change="calculateEndDate"
                   required
                 />
@@ -211,7 +211,7 @@
                 <input 
                   v-model="form.end_date" 
                   type="date"
-                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                   required
                 />
               </div>
@@ -224,7 +224,7 @@
                 <input 
                   v-model="form.start_date_term1"
                   type="date"
-                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   readonly
                 />
               </div>
@@ -234,7 +234,7 @@
                 <input 
                   v-model="form.end_date_term1"
                   type="date"
-                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   readonly
                 />
               </div>
@@ -247,7 +247,7 @@
                 <input 
                   v-model="form.start_date_term2"
                   type="date"
-                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   readonly
                 />
               </div>
@@ -257,7 +257,7 @@
                 <input 
                   v-model="form.end_date_term2"
                   type="date"
-                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   readonly
                 />
               </div>
@@ -283,7 +283,7 @@
             </button>
             <button 
               type="submit" 
-              class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
             >
               <i class="fa-solid fa-floppy-disk"></i>
               Save

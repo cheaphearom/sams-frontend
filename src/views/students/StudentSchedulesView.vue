@@ -34,7 +34,7 @@
       <div class="flex justify-center gap-2">
         <button 
           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          :class="viewMode === 'week' ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+          :class="viewMode === 'week' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
           @click="viewMode = 'week'"
         >
           <i class="fa-solid fa-calendar-week mr-1"></i>
@@ -42,7 +42,7 @@
         </button>
         <button 
           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          :class="viewMode === 'month' ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+          :class="viewMode === 'month' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
           @click="viewMode = 'month'"
         >
           <i class="fa-solid fa-calendar-days mr-1"></i>
@@ -50,7 +50,7 @@
         </button>
         <button 
           class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          :class="viewMode === 'year' ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+          :class="viewMode === 'year' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
           @click="viewMode = 'year'"
         >
           <i class="fa-solid fa-calendar mr-1"></i>
@@ -71,7 +71,7 @@
         <i class="fa-solid fa-circle-exclamation text-3xl text-red-500 mb-4 block"></i>
         <p class="text-red-600 font-medium mb-4">{{ error }}</p>
         <button 
-          class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
           @click="fetchSchedules"
         >
           <i class="fa-solid fa-rotate-right mr-2"></i>
@@ -410,7 +410,7 @@
           <button 
             class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             :class="canRequestLeave 
-              ? 'bg-slate-900 text-white hover:bg-slate-800' 
+              ? 'bg-blue-600 text-white hover:bg-blue-700' 
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
             :disabled="!canRequestLeave"
             @click="canRequestLeave && showFormRequest()"
@@ -474,7 +474,7 @@
             <select 
               v-model="leaveFormData.status" 
               required
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Select status</option>
               <option value="absent">Absent</option>
@@ -491,7 +491,7 @@
             <select 
               v-model="leaveFormData.reason" 
               required
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="attendance_records">Attendance Records</option>
               <option value="personal">Personal</option>
@@ -510,7 +510,7 @@
               v-model="leaveFormData.remark"
               rows="4"
               placeholder="Please provide a reason for your leave request..."
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent resize-none"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
             ></textarea>
           </div>
 
@@ -527,7 +527,7 @@
             </button>
             <button 
               type="submit"
-              class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               :disabled="submittingLeave"
             >
               <i class="fa-solid fa-spinner fa-spin mr-2" v-if="submittingLeave"></i>

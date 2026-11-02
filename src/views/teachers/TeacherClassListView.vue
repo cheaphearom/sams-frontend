@@ -76,7 +76,7 @@
                 <td class="px-6 py-3">
                   <div class="flex flex-wrap gap-2">
                     <button
-                      class="bg-slate-900 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+                      class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
                       @click="openStudents(c)"
                     >
                       <i class="fa-solid fa-users"></i>

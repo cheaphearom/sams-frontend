@@ -17,12 +17,12 @@
             v-model="searchQuery" 
             type="text" 
             placeholder="Search by name or code..."
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
           />
         </div>
         
         <button 
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm" 
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm" 
           @click="openForm()"
         >
           <i class="fa-solid fa-plus"></i>
@@ -163,7 +163,7 @@
             <select 
               v-model.number="itemsPerPage" 
               @change="changeItemsPerPage"
-              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+              class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option :value="5">5</option>
               <option :value="10">10</option>
@@ -191,7 +191,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">Major Code</label>
               <input 
                 v-model="form.major_code" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="e.g., CS, ENG, BUS"
                 required
               />
@@ -201,7 +201,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">Major Name</label>
               <input 
                 v-model="form.major_name" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="e.g., Computer Science"
                 required
               />
@@ -212,7 +212,7 @@
               <textarea 
                 v-model="form.description" 
                 rows="3"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent resize-none" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none" 
                 placeholder="Enter major description..."
               ></textarea>
             </div>
@@ -221,7 +221,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-1.5">Faculty</label>
               <input 
                 v-model="form.faculty" 
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                 placeholder="e.g., Faculty of Engineering"
               />
             </div>
@@ -243,7 +243,7 @@
             </button>
             <button 
               type="submit" 
-              class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
             >
               <i class="fa-solid fa-floppy-disk"></i>
               Save

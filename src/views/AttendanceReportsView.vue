@@ -19,7 +19,7 @@
             v-model.number="classId" 
             type="number" 
             placeholder="Enter class ID"
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent" 
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
           />
         </div>
         
@@ -27,7 +27,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-2">Schedule</label>
           <select 
             v-model.number="selectedScheduleId" 
-            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent bg-white"
+            class="w-full border border-gray-300 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
           >
             <option disabled value="">-- Select schedule --</option>
             <option v-for="s in schedules" :key="s.id" :value="s.id">
@@ -37,7 +37,7 @@
         </div>
 
         <button 
-          class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-500 transition-colors flex items-center gap-2 shadow-sm" 
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm" 
           @click="loadSchedules"
         >
           <i class="fa-solid fa-rotate"></i>

@@ -20,7 +20,7 @@
       </div>
 
       <button
-        class="bg-slate-600 text-white px-4 py-2 rounded-lg text-sm"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm"
         @click="openForm()"
       >
         <i class="fa fa-plus mr-1"></i> New Faculty
@@ -128,7 +128,7 @@
             <button type="button" @click="closeForm" class="px-4 py-2 border rounded-lg">
               Cancel
             </button>
-            <button type="submit" class="px-4 py-2 bg-slate-900 text-white rounded-lg">
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">
               Save
             </button>
           </div>

@@ -209,7 +209,7 @@
             <button type="button" @click="closeForm" class="px-4 py-2 border rounded-lg" :disabled="saving">
               Cancel
             </button>
-            <button type="submit" class="px-4 py-2 bg-slate-900 text-white rounded-lg" :disabled="saving">
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg" :disabled="saving">
               <i v-if="saving" class="fa-solid fa-spinner fa-spin mr-2"></i>
               Save
             </button>
@@ -259,7 +259,7 @@
 
               <button
                 type="button"
-                class="px-3 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-white hover:bg-slate-800"
+                class="px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700"
                 @click="closeMapPicker"
               >
                 <i class="fa-solid fa-check mr-2"></i>
